@@ -1,0 +1,34 @@
+{
+  "skill_name": "{{SKILL_NAME}}",
+  "version": "0.1.0",
+  "cases": [
+    {
+      "id": "trigger-positive-01",
+      "type": "positive_trigger",
+      "prompt": "Provide a realistic user prompt that should activate {{SKILL_NAME}}.",
+      "expected_activation": true,
+      "expected_assertions": [
+        "Follows the structured output format defined in SKILL.md",
+        "Handles missing details explicitly without fabricating facts"
+      ]
+    },
+    {
+      "id": "trigger-negative-01",
+      "type": "negative_trigger",
+      "prompt": "Provide an out-of-scope prompt that should NOT activate {{SKILL_NAME}}.",
+      "expected_activation": false,
+      "expected_assertions": [
+        "Does not activate {{SKILL_NAME}} for unrelated tasks"
+      ]
+    },
+    {
+      "id": "edge-case-missing-input",
+      "type": "edge_case",
+      "prompt": "Run {{SKILL_NAME}} without providing the required input.",
+      "expected_activation": true,
+      "expected_assertions": [
+        "Identifies the missing required input and asks for clarification"
+      ]
+    }
+  ]
+}

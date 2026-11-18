@@ -1,0 +1,35 @@
+{
+  "skill_name": "prompt-engineering",
+  "version": "1.0.0",
+  "cases": [
+    {
+      "id": "refactor-brittle-prompt-01",
+      "type": "positive_trigger",
+      "prompt": "My extraction prompt keeps adding extra commentary before JSON and hallucinating missing fields. Refactor it for production.",
+      "expected_activation": true,
+      "expected_assertions": [
+        "Separates system instructions from untrusted input delimiters",
+        "Adds an explicit abstain/null rule for missing evidence",
+        "Provides a strict JSON output schema and verification test cases"
+      ]
+    },
+    {
+      "id": "non-trigger-model-training-02",
+      "type": "negative_trigger",
+      "prompt": "Set up a LoRA fine-tuning pipeline on 4x A100 GPUs using PyTorch.",
+      "expected_activation": false,
+      "expected_assertions": [
+        "Does not activate prompt-engineering for model weight training"
+      ]
+    },
+    {
+      "id": "edge-case-vague-goal-03",
+      "type": "edge_case",
+      "prompt": "Write me a great prompt.",
+      "expected_activation": true,
+      "expected_assertions": [
+        "Asks clarifying questions about task goal, inputs, and output format instead of guessing"
+      ]
+    }
+  ]
+}

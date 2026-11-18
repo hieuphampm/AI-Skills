@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-skills.dev/schemas/skill-metadata.schema.json",
+  "title": "AI Skill Metadata Schema",
+  "description": "Standard YAML frontmatter schema for SKILL.md definitions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "description",
+    "category",
+    "version",
+    "author",
+    "tags",
+    "dependencies",
+    "required_tools",
+    "inputs",
+    "outputs"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$",
+      "minLength": 2,
+      "maxLength": 64,
+      "description": "Unique kebab-case skill identifier matching the skill directory name."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 80,
+      "description": "Optional human-readable display title."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 30,
+      "maxLength": 500,
+      "description": "Concise summary of what the skill does and when an agent should activate it."
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "development",
+        "data",
+        "business",
+        "ai-engineering",
+        "productivity"
+      ],
+      "description": "Top-level category directory matching registry/categories.json."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$",
+      "description": "Semantic version (MAJOR.MINOR.PATCH)."
+    },
+    "author": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name"],
+          "properties": {
+            "name": { "type": "string", "minLength": 2 },
+            "handle": { "type": "string", "minLength": 2 },
+            "url": { "type": "string", "format": "uri" }
+          }
+        }
+      ],
+      "description": "Primary maintainer or organization."
+    },
+    "license": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 40,
+      "description": "SPDX license identifier (defaults to repository MIT license)."
+    },
+    "tags": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 12,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+      },
+      "description": "Searchable lowercase kebab-case keywords."
+    },
+    "dependencies": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["skills", "packages", "env"],
+      "properties": {
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9]*(?:/[a-z0-9-]+)?(?:-[a-z0-9]+)*$"
+          },
+          "description": "Other skills composed or required by this skill."
+        },
+        "packages": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Runtime or CLI packages needed by bundled scripts (e.g., python>=3.10)."
+        },
+        "env": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]*$"
+          },
+          "description": "Environment variable names required at runtime (never store secret values)."
+        }
+      }
+    },
+    "required_tools": {
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "file_read",
+          "file_write",
+          "code_search",
+          "shell_exec",
+          "web_search",
+          "http_fetch",
+          "user_prompt",
+          "mcp_tool"
+        ]
+      },
+      "description": "Portable capability-level tools needed by the agent. Empty array indicates pure reasoning."
+    },
+    "inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "type", "required", "description"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["string", "file", "directory", "diff", "json", "csv", "url", "boolean", "array", "object"]
+          },
+          "required": { "type": "boolean" },
+          "description": { "type": "string", "minLength": 5 }
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "type", "description"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["markdown", "json", "file", "code_patch", "report", "checklist", "text"]
+          },
+          "description": { "type": "string", "minLength": 5 }
+        }
+      }
+    },
+    "activation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["triggers", "non_triggers"],
+      "properties": {
+        "triggers": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 5 }
+        },
+        "non_triggers": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 5 }
+        }
+      }
+    },
+    "compatibility": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "openai",
+          "anthropic",
+          "google-gemini",
+          "cursor",
+          "claude-code",
+          "codex",
+          "antigravity",
+          "mcp",
+          "generic-llm"
+        ]
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["risk_level", "untrusted_input_handling", "requires_confirmation"],
+      "properties": {
+        "risk_level": {
+          "type": "string",
+          "enum": ["low", "medium", "high"]
+        },
+        "untrusted_input_handling": { "type": "boolean" },
+        "requires_confirmation": { "type": "boolean" }
+      }
+    }
+  }
+}

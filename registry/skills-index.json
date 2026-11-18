@@ -1,0 +1,152 @@
+{
+  "schema_version": "1.0.0",
+  "skill_count": 3,
+  "skills": [
+    {
+      "id": "ai-engineering/prompt-engineering",
+      "name": "prompt-engineering",
+      "title": "Prompt Engineering",
+      "category": "ai-engineering",
+      "version": "1.0.0",
+      "description": "Designs, refactors, and hardens LLM prompts for accuracy, structured outputs, token efficiency, and prompt-injection resilience. Use when creating a production prompt, fixing inconsistent LLM outputs, or adding output schemas and test cases.",
+      "tags": [
+        "evaluation",
+        "guardrails",
+        "llm",
+        "prompt-engineering",
+        "structured-output"
+      ],
+      "required_tools": [
+        "file_read"
+      ],
+      "compatibility": [
+        "openai",
+        "anthropic",
+        "google-gemini",
+        "cursor",
+        "claude-code",
+        "codex",
+        "antigravity",
+        "mcp",
+        "generic-llm"
+      ],
+      "risk_level": "low",
+      "path": "skills/ai-engineering/prompt-engineering",
+      "entrypoint": "skills/ai-engineering/prompt-engineering/SKILL.md",
+      "resources": {
+        "references": [
+          "references/prompt-patterns.md"
+        ],
+        "scripts": [],
+        "assets": [
+          "assets/prompt-spec-template.md"
+        ],
+        "examples": [
+          "examples/classifier-prompt-refactor.md"
+        ],
+        "tests": [
+          "tests/eval-cases.json"
+        ]
+      }
+    },
+    {
+      "id": "data/data-analysis",
+      "name": "data-analysis",
+      "title": "Exploratory Data Analysis",
+      "category": "data",
+      "version": "1.0.0",
+      "description": "Audits tabular datasets for schema quality, missingness, distributions, outliers, and segment patterns using deterministic Python profiling before drawing conclusions. Use when analyzing CSV/tabular data, investigating metrics, or auditing data quality.",
+      "tags": [
+        "csv",
+        "data-analysis",
+        "data-quality",
+        "eda",
+        "statistics"
+      ],
+      "required_tools": [
+        "file_read",
+        "shell_exec"
+      ],
+      "compatibility": [
+        "openai",
+        "anthropic",
+        "google-gemini",
+        "cursor",
+        "claude-code",
+        "codex",
+        "antigravity",
+        "mcp",
+        "generic-llm"
+      ],
+      "risk_level": "medium",
+      "path": "skills/data/data-analysis",
+      "entrypoint": "skills/data/data-analysis/SKILL.md",
+      "resources": {
+        "references": [
+          "references/statistical-checks.md"
+        ],
+        "scripts": [
+          "scripts/profile_csv.py"
+        ],
+        "assets": [
+          "assets/analysis-report-template.md"
+        ],
+        "examples": [
+          "examples/ecommerce-cohort-analysis.md"
+        ],
+        "tests": [
+          "tests/eval-cases.json",
+          "tests/test_profile_csv.py"
+        ]
+      }
+    },
+    {
+      "id": "development/code-review",
+      "name": "code-review",
+      "title": "Code Review",
+      "category": "development",
+      "version": "1.0.0",
+      "description": "Performs structured, security-aware code reviews on diffs, pull requests, or source files. Use when asked to review code, audit changes for bugs or vulnerabilities, or evaluate maintainability and test coverage.",
+      "tags": [
+        "code-review",
+        "pull-request",
+        "security",
+        "software-quality",
+        "static-analysis"
+      ],
+      "required_tools": [
+        "file_read",
+        "code_search"
+      ],
+      "compatibility": [
+        "openai",
+        "anthropic",
+        "google-gemini",
+        "cursor",
+        "claude-code",
+        "codex",
+        "antigravity",
+        "mcp",
+        "generic-llm"
+      ],
+      "risk_level": "low",
+      "path": "skills/development/code-review",
+      "entrypoint": "skills/development/code-review/SKILL.md",
+      "resources": {
+        "references": [
+          "references/review-checklist.md"
+        ],
+        "scripts": [],
+        "assets": [
+          "assets/review-report-template.md"
+        ],
+        "examples": [
+          "examples/python-api-review.md"
+        ],
+        "tests": [
+          "tests/eval-cases.json"
+        ]
+      }
+    }
+  ]
+}

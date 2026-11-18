@@ -1,0 +1,25 @@
+[project]
+name = "ai-skills-repository"
+version = "1.0.0"
+description = "Modular, portable, production-ready AI Skills Repository for multi-agent and multi-LLM systems."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = [
+    "pyyaml>=6.0",
+    "jsonschema>=4.18",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "skills"]
+python_files = ["test_*.py"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "categories": [
+    {
+      "id": "development",
+      "name": "Software Development",
+      "description": "Skills for software engineering, frontend/backend development, API design, code review, testing, and refactoring."
+    },
+    {
+      "id": "data",
+      "name": "Data & Analytics",
+      "description": "Skills for exploratory data analysis, statistical validation, data visualization, and data engineering pipelines."
+    },
+    {
+      "id": "business",
+      "name": "Business & Operations",
+      "description": "Skills for business analysis, requirements specification, project planning, and technical/product documentation."
+    },
+    {
+      "id": "ai-engineering",
+      "name": "AI & LLM Engineering",
+      "description": "Skills for prompt engineering, RAG architecture, agent orchestration design, and LLM evaluation."
+    },
+    {
+      "id": "productivity",
+      "name": "Research & Productivity",
+      "description": "Skills for structured research synthesis, technical writing, content creation, and workflow automation."
+    }
+  ]
+}

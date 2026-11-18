@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-skills.dev/schemas/registry-index.schema.json",
+  "title": "AI Skills Registry Index Schema",
+  "description": "Schema for registry/skills-index.json used for dynamic agent discovery.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "skill_count", "skills"],
+  "properties": {
+    "schema_version": { "type": "string" },
+    "skill_count": { "type": "integer", "minimum": 0 },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "title",
+          "category",
+          "version",
+          "description",
+          "tags",
+          "required_tools",
+          "compatibility",
+          "risk_level",
+          "path",
+          "entrypoint",
+          "resources"
+        ],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "title": { "type": "string" },
+          "category": { "type": "string" },
+          "version": { "type": "string" },
+          "description": { "type": "string" },
+          "tags": { "type": "array", "items": { "type": "string" } },
+          "required_tools": { "type": "array", "items": { "type": "string" } },
+          "compatibility": { "type": "array", "items": { "type": "string" } },
+          "risk_level": { "type": "string", "enum": ["low", "medium", "high"] },
+          "path": { "type": "string" },
+          "entrypoint": { "type": "string" },
+          "resources": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["references", "scripts", "assets", "examples", "tests"],
+            "properties": {
+              "references": { "type": "array", "items": { "type": "string" } },
+              "scripts": { "type": "array", "items": { "type": "string" } },
+              "assets": { "type": "array", "items": { "type": "string" } },
+              "examples": { "type": "array", "items": { "type": "string" } },
+              "tests": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    }
+  }
+}

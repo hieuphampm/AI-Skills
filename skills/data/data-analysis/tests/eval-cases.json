@@ -1,0 +1,35 @@
+{
+  "skill_name": "data-analysis",
+  "version": "1.0.0",
+  "cases": [
+    {
+      "id": "profile-csv-before-conclusions-01",
+      "type": "positive_trigger",
+      "prompt": "Analyze sales_2026.csv for outliers, missing data, and revenue distribution.",
+      "expected_activation": true,
+      "expected_assertions": [
+        "Invokes scripts/profile_csv.py rather than guessing statistics",
+        "Reports median and IQR alongside mean when data is skewed",
+        "Flags columns above the 20% missingness threshold"
+      ]
+    },
+    {
+      "id": "non-trigger-etl-pipeline-02",
+      "type": "negative_trigger",
+      "prompt": "Write an Apache Airflow DAG that extracts Postgres tables into Snowflake every night.",
+      "expected_activation": false,
+      "expected_assertions": [
+        "Does not activate data-analysis for ETL infrastructure engineering"
+      ]
+    },
+    {
+      "id": "edge-case-empty-csv-03",
+      "type": "edge_case",
+      "prompt": "Analyze empty_export.csv which only contains a header row and zero data rows.",
+      "expected_activation": true,
+      "expected_assertions": [
+        "Reports 0 data rows and stops without fabricating summary metrics"
+      ]
+    }
+  ]
+}
