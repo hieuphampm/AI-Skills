@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "skill_count": 4,
+  "skill_count": 7,
   "skills": [
     {
       "id": "ai-engineering/prompt-engineering",
@@ -43,6 +43,54 @@
         ],
         "examples": [
           "examples/classifier-prompt-refactor.md"
+        ],
+        "tests": [
+          "tests/eval-cases.json"
+        ]
+      }
+    },
+    {
+      "id": "ai-engineering/rag-development",
+      "name": "rag-development",
+      "title": "RAG Development",
+      "category": "ai-engineering",
+      "version": "1.0.0",
+      "description": "Designs and hardens Retrieval-Augmented Generation (RAG) pipelines covering ingestion, chunking, embedding, retrieval, reranking, and grounded generation with citations. Use when building a RAG system, fixing poor retrieval or hallucinations, or tuning chunk size, top-k, and prompt grounding.",
+      "tags": [
+        "chunking",
+        "embedding",
+        "grounding",
+        "rag",
+        "reranking",
+        "retrieval"
+      ],
+      "required_tools": [
+        "file_read"
+      ],
+      "compatibility": [
+        "openai",
+        "anthropic",
+        "google-gemini",
+        "cursor",
+        "claude-code",
+        "codex",
+        "antigravity",
+        "mcp",
+        "generic-llm"
+      ],
+      "risk_level": "medium",
+      "path": "skills/ai-engineering/rag-development",
+      "entrypoint": "skills/ai-engineering/rag-development/SKILL.md",
+      "resources": {
+        "references": [
+          "references/rag-design-checklist.md"
+        ],
+        "scripts": [],
+        "assets": [
+          "assets/rag-design-template.md"
+        ],
+        "examples": [
+          "examples/support-kb-rag-design.md"
         ],
         "tests": [
           "tests/eval-cases.json"
@@ -142,6 +190,104 @@
         ],
         "examples": [
           "examples/python-api-review.md"
+        ],
+        "tests": [
+          "tests/eval-cases.json"
+        ]
+      }
+    },
+    {
+      "id": "productivity/content-creation",
+      "name": "content-creation",
+      "title": "Content Creation",
+      "category": "productivity",
+      "version": "1.0.0",
+      "description": "Plans and writes audience-focused content (blog posts, docs, social, email) with a clear hook, structure, and call-to-action, then optimizes for SEO and readability. Use when drafting or editing content, building a content outline, or improving titles, meta descriptions, and readability.",
+      "tags": [
+        "content",
+        "editing",
+        "outline",
+        "readability",
+        "seo",
+        "writing"
+      ],
+      "required_tools": [
+        "file_read"
+      ],
+      "compatibility": [
+        "openai",
+        "anthropic",
+        "google-gemini",
+        "cursor",
+        "claude-code",
+        "codex",
+        "antigravity",
+        "mcp",
+        "generic-llm"
+      ],
+      "risk_level": "low",
+      "path": "skills/productivity/content-creation",
+      "entrypoint": "skills/productivity/content-creation/SKILL.md",
+      "resources": {
+        "references": [
+          "references/content-style-guide.md"
+        ],
+        "scripts": [],
+        "assets": [
+          "assets/content-draft-template.md"
+        ],
+        "examples": [
+          "examples/product-launch-blog-post.md"
+        ],
+        "tests": [
+          "tests/eval-cases.json"
+        ]
+      }
+    },
+    {
+      "id": "productivity/presentation-design",
+      "name": "presentation-design",
+      "title": "Presentation Design",
+      "category": "productivity",
+      "version": "1.0.0",
+      "description": "Designs a clear, audience-focused PowerPoint deck from a topic or outline \u2014 slide-by-slide structure, speaker notes, and a python-pptx script to generate the .pptx. Use when creating slide decks, pitch decks, or turning notes into a presentable PowerPoint.",
+      "tags": [
+        "pitch-deck",
+        "powerpoint",
+        "presentation",
+        "python-pptx",
+        "slides"
+      ],
+      "required_tools": [
+        "file_read",
+        "file_write",
+        "shell_exec"
+      ],
+      "compatibility": [
+        "openai",
+        "anthropic",
+        "google-gemini",
+        "cursor",
+        "claude-code",
+        "codex",
+        "antigravity",
+        "mcp",
+        "generic-llm"
+      ],
+      "risk_level": "medium",
+      "path": "skills/productivity/presentation-design",
+      "entrypoint": "skills/productivity/presentation-design/SKILL.md",
+      "resources": {
+        "references": [
+          "references/slide-design-guide.md"
+        ],
+        "scripts": [],
+        "assets": [
+          "assets/build_deck_template.py",
+          "assets/slide-deck-template.md"
+        ],
+        "examples": [
+          "examples/quarterly-review-deck.md"
         ],
         "tests": [
           "tests/eval-cases.json"

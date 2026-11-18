@@ -30,6 +30,7 @@ def build_index(skills_dir: Path = SKILLS_DIR, repo_root: Path = REPO_ROOT) -> d
         parsed = parse_skill_markdown(skill_dir)
         fm = parsed.frontmatter
         rel_path = skill_dir.relative_to(repo_root).as_posix()
+        security = fm.get("security") if isinstance(fm.get("security"), dict) else {}
         entries.append(
             {
                 "id": f"{fm['category']}/{fm['name']}",
@@ -38,10 +39,10 @@ def build_index(skills_dir: Path = SKILLS_DIR, repo_root: Path = REPO_ROOT) -> d
                 "category": fm["category"],
                 "version": fm["version"],
                 "description": fm["description"],
-                "tags": sorted(fm.get("tags", [])),
-                "required_tools": list(fm.get("required_tools", [])),
-                "compatibility": list(fm.get("compatibility", [])),
-                "risk_level": fm.get("security", {}).get("risk_level", "low"),
+                "tags": sorted(fm.get("tags") or []),
+                "required_tools": list(fm.get("required_tools") or []),
+                "compatibility": list(fm.get("compatibility") or []),
+                "risk_level": security.get("risk_level", "low"),
                 "path": rel_path,
                 "entrypoint": f"{rel_path}/SKILL.md",
                 "resources": {

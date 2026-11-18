@@ -43,13 +43,20 @@ def find_duplicates(
     for skill_dir in skill_dirs:
         parsed = parse_skill_markdown(skill_dir)
         fm = parsed.frontmatter
-        name = str(fm["name"])
-        skill_id = f"{fm['category']}/{name}"
+        raw_name = fm.get("name")
+        raw_category = fm.get("category")
+        if not raw_name or not raw_category:
+            errors.append(f"Missing required 'name' or 'category' in {skill_dir / 'SKILL.md'}")
+            continue
+        name = str(raw_name)
+        skill_id = f"{raw_category}/{name}"
         by_name[name].append(skill_dir)
 
-        desc_tokens = _tokenize(str(fm.get("description", "")))
-        tag_tokens = {str(t).lower() for t in fm.get("tags", [])}
-        trigger_text = " ".join(fm.get("activation", {}).get("triggers", []))
+        desc_tokens = _tokenize(str(fm.get("description") or ""))
+        tag_tokens = {str(t).lower() for t in (fm.get("tags") or [])}
+        activation = fm.get("activation") or {}
+        triggers = activation.get("triggers") if isinstance(activation, dict) else []
+        trigger_text = " ".join(str(t) for t in (triggers or []))
         combined_tokens = desc_tokens | tag_tokens | _tokenize(trigger_text)
         profiles.append((skill_id, name, combined_tokens))
 

@@ -63,6 +63,21 @@ class TestProfileCsv(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             profile_csv_mod.profile_csv(Path("nonexistent_file_12345.csv"))
 
+    def test_max_rows_exact_and_truncated_boundaries(self) -> None:
+        csv_path = self._write_csv("id,val\n1,10\n2,20\n3,30\n")
+        exact = profile_csv_mod.profile_csv(csv_path, max_rows=3)
+        self.assertEqual(exact["row_count"], 3)
+        self.assertFalse(exact["truncated_at_max_rows"])
+
+        truncated = profile_csv_mod.profile_csv(csv_path, max_rows=2)
+        self.assertEqual(truncated["row_count"], 2)
+        self.assertTrue(truncated["truncated_at_max_rows"])
+
+    def test_invalid_max_rows_raises_value_error(self) -> None:
+        csv_path = self._write_csv("id,val\n1,10\n")
+        with self.assertRaises(ValueError):
+            profile_csv_mod.profile_csv(csv_path, max_rows=0)
+
 
 if __name__ == "__main__":
     unittest.main()

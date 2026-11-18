@@ -95,6 +95,8 @@ def _profile_column(name: str, raw_values: list[str]) -> dict[str, Any]:
 
 def profile_csv(path: Path, max_rows: int = 200_000) -> dict[str, Any]:
     """Profile a CSV file and return structured quality & summary statistics."""
+    if max_rows < 1:
+        raise ValueError(f"max_rows must be at least 1 (got {max_rows})")
     if not path.exists() or not path.is_file():
         raise FileNotFoundError(f"CSV file not found: {path}")
     if path.stat().st_size > MAX_FILE_BYTES:
@@ -112,9 +114,11 @@ def profile_csv(path: Path, max_rows: int = 200_000) -> dict[str, Any]:
         seen_rows: Counter[tuple[str, ...]] = Counter()
         row_count = 0
         malformed_rows = 0
+        truncated = False
 
         for row in reader:
             if row_count >= max_rows:
+                truncated = True
                 break
             row_count += 1
             if len(row) != len(headers):
@@ -133,7 +137,7 @@ def profile_csv(path: Path, max_rows: int = 200_000) -> dict[str, Any]:
         "column_count": len(headers),
         "duplicate_row_count": duplicate_rows,
         "malformed_row_count": malformed_rows,
-        "truncated_at_max_rows": row_count >= max_rows,
+        "truncated_at_max_rows": truncated,
         "columns": [_profile_column(name, vals) for name, vals in zip(headers, columns)],
     }
 

@@ -1,10 +1,10 @@
 ---
 name: {{SKILL_NAME}}
-title: {{SKILL_TITLE}}
-description: {{SKILL_DESCRIPTION}}
+title: "{{SKILL_TITLE}}"
+description: "{{SKILL_DESCRIPTION}}"
 category: {{CATEGORY}}
 version: 0.1.0
-author: {{AUTHOR}}
+author: "{{AUTHOR}}"
 license: MIT
 tags:
   - {{CATEGORY}}
@@ -26,7 +26,7 @@ outputs:
     description: Structured output produced following the execution instructions.
 activation:
   triggers:
-    - User explicitly requests {{SKILL_TITLE}} with concrete input data.
+    - "User explicitly requests {{SKILL_TITLE}} with concrete input data."
   non_triggers:
     - Request belongs to a different domain or lacks verifiable inputs.
 compatibility:

@@ -1,4 +1,8 @@
-"""Discovers and runs unit test suites embedded inside individual skills."""
+"""Discovers and runs unit test suites embedded inside individual skills.
+
+Note: `load_tests` is invoked by `unittest discover`. Under `pytest`, `pyproject.toml`
+includes `skills` in `testpaths`, so embedded skill tests are discovered directly.
+"""
 
 from __future__ import annotations
 

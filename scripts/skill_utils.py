@@ -18,6 +18,7 @@ REGISTRY_DIR = REPO_ROOT / "registry"
 
 FRONTMATTER_RE = re.compile(r"\A---\r?\n(.*?)\r?\n---\r?\n(.*)\Z", re.DOTALL)
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$", re.MULTILINE)
+FENCED_CODE_RE = re.compile(r"(^|\n)(`{3,}|~{3,})[^\n]*\n.*?\n\2[ \t]*(?=\n|$)", re.DOTALL)
 MARKDOWN_LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 KEBAB_CASE_RE = re.compile(r"^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$")
 
@@ -96,8 +97,9 @@ def extract_h2_headings(markdown_body: str) -> list[str]:
 
 def extract_relative_links(markdown_text: str) -> list[str]:
     """Return non-URL, non-anchor relative paths referenced via Markdown links."""
+    stripped = FENCED_CODE_RE.sub(r"\1", markdown_text)
     links: list[str] = []
-    for match in MARKDOWN_LINK_RE.finditer(markdown_text):
+    for match in MARKDOWN_LINK_RE.finditer(stripped):
         target = match.group(1).strip().split("#", 1)[0]
         if not target:
             continue
@@ -105,6 +107,14 @@ def extract_relative_links(markdown_text: str) -> list[str]:
             continue
         links.append(target)
     return links
+
+
+def is_within_directory(base_dir: Path, target_path: Path) -> bool:
+    """Return True if target_path resolves inside base_dir (prevents path traversal)."""
+    try:
+        return target_path.resolve().is_relative_to(base_dir.resolve())
+    except OSError:
+        return False
 
 
 def estimate_tokens(text: str) -> int:

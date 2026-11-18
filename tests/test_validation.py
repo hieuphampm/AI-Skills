@@ -78,6 +78,47 @@ class TestSkillValidation(unittest.TestCase):
         self.assertFalse(res.ok)
         self.assertTrue(any("Unsafe Python pattern" in err for err in res.errors))
 
+    def test_rejects_path_traversal_link(self) -> None:
+        skill_dir = self._copy_valid_skill_to_temp()
+        skill_md = skill_dir / "SKILL.md"
+        skill_md.write_text(skill_md.read_text(encoding="utf-8") + "\nSee [escape](../../README.md).\n", encoding="utf-8")
+        res = validate_skill(skill_dir, self.validator, self.categories)
+        self.assertFalse(res.ok)
+        self.assertTrue(any("escapes skill directory" in err for err in res.errors))
+
+    def test_ignores_links_inside_fenced_code_blocks(self) -> None:
+        skill_dir = self._copy_valid_skill_to_temp()
+        skill_md = skill_dir / "SKILL.md"
+        skill_md.write_text(
+            skill_md.read_text(encoding="utf-8") + "\n```markdown\n[example](nonexistent/file.md)\n```\n",
+            encoding="utf-8",
+        )
+        res = validate_skill(skill_dir, self.validator, self.categories)
+        self.assertTrue(res.ok, msg=f"Unexpected error on fenced code link: {res.errors}")
+
+    def test_rejects_sk_proj_secret_pattern(self) -> None:
+        skill_dir = self._copy_valid_skill_to_temp()
+        leak_file = skill_dir / "examples" / "python-api-review.md"
+        leak_file.write_text("TOKEN=sk-proj-AbCdEfGhIjKlMnOpQrStUvWx123456\n", encoding="utf-8")
+        res = validate_skill(skill_dir, self.validator, self.categories)
+        self.assertFalse(res.ok)
+        self.assertTrue(any("Potential hardcoded secret" in err for err in res.errors))
+
+    def test_rejects_malformed_eval_case_fields(self) -> None:
+        skill_dir = self._copy_valid_skill_to_temp()
+        eval_file = skill_dir / "tests" / "eval-cases.json"
+        eval_file.write_text(
+            '{"skill_name": "code-review", "version": "1.0.0", "cases": ['
+            '{"id": "c1", "type": "positive_trigger", "prompt": "p1", "expected_activation": true, "expected_assertions": ["a"]},'
+            '{"id": "c2", "type": "negative_trigger", "prompt": "p2", "expected_activation": false, "expected_assertions": ["b"]},'
+            '{"id": "", "type": "edge_case", "prompt": "p3", "expected_activation": "yes", "expected_assertions": []}'
+            "]}",
+            encoding="utf-8",
+        )
+        res = validate_skill(skill_dir, self.validator, self.categories)
+        self.assertFalse(res.ok)
+        self.assertTrue(any("case[2]" in err for err in res.errors))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -37,7 +37,10 @@ AI-Skills/
 ├── skills/
 │   ├── development/code-review/
 │   ├── ai-engineering/prompt-engineering/
+│   ├── ai-engineering/rag-development/
 │   ├── data/data-analysis/
+│   ├── productivity/content-creation/
+│   ├── productivity/presentation-design/
 │   └── productivity/research-paper-analyzer/
 ├── scripts/
 │   ├── skill_utils.py
@@ -70,7 +73,10 @@ AI-Skills/
 | :--- | :--- | :--- | :--- | :--- |
 | [code-review](skills/development/code-review/SKILL.md) | `development` | `1.0.0` | `low` | Structured, security-aware code reviews for diffs, PRs, and source files. |
 | [prompt-engineering](skills/ai-engineering/prompt-engineering/SKILL.md) | `ai-engineering` | `1.0.0` | `low` | Designs, refactors, and hardens LLM prompts with schemas and anti-injection guards. |
+| [rag-development](skills/ai-engineering/rag-development/SKILL.md) | `ai-engineering` | `1.0.0` | `medium` | Designs and hardens RAG pipelines covering ingestion, chunking, retrieval, reranking, and grounded generation. |
 | [data-analysis](skills/data/data-analysis/SKILL.md) | `data` | `1.0.0` | `medium` | Exploratory CSV data analysis backed by deterministic Python profiling (`profile_csv.py`). |
+| [content-creation](skills/productivity/content-creation/SKILL.md) | `productivity` | `1.0.0` | `low` | Plans and writes audience-focused content optimized for structure, clarity, SEO, and readability. |
+| [presentation-design](skills/productivity/presentation-design/SKILL.md) | `productivity` | `1.0.0` | `medium` | Designs slide-by-slide PowerPoint decks with speaker notes and `python-pptx` generation scripts. |
 | [research-paper-analyzer](skills/productivity/research-paper-analyzer/SKILL.md) | `productivity` | `1.0.0` | `low` | Source-traceable academic paper analysis, quantitative evidence extraction, methodology appraisal, and APA 7th citations. |
 
 Planned category taxonomy (`development`, `data`, `business`, `ai-engineering`, `productivity`) is defined in [registry/categories.json](registry/categories.json).

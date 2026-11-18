@@ -66,7 +66,42 @@ class TestAutomationScripts(unittest.TestCase):
         payload = build_index()
         validate_index_payload(payload)
         self.assertEqual(payload["skill_count"], len(payload["skills"]))
-        self.assertGreaterEqual(payload["skill_count"], 3)
+        self.assertGreaterEqual(payload["skill_count"], 4)
+
+    def test_create_skill_handles_colons_and_quotes_safely(self) -> None:
+        tmp_skills = Path(tempfile.mkdtemp())
+        self.addCleanup(lambda: shutil.rmtree(tmp_skills, ignore_errors=True))
+
+        created = create_skill(
+            name="log-triage",
+            category="development",
+            title='Log Triage: "Fast" Mode',
+            description='Analyzes service logs: detects "5xx" spikes, timeouts, and retry storms reliably.',
+            author='Platform "Core" Team',
+            skills_dir=tmp_skills,
+            templates_dir=TEMPLATES_DIR,
+            registry_dir=REGISTRY_DIR,
+        )
+
+        schema = load_json(SCHEMAS_DIR / "skill-metadata.schema.json")
+        res = validate_skill(created, Draft202012Validator(schema), load_categories(REGISTRY_DIR))
+        self.assertTrue(res.ok, msg=f"Special-char scaffold failed validation: {res.errors}")
+
+    def test_detect_duplicates_and_index_tolerate_null_optional_fields(self) -> None:
+        tmp_root = Path(tempfile.mkdtemp())
+        self.addCleanup(lambda: shutil.rmtree(tmp_root, ignore_errors=True))
+        skill_dir = tmp_root / "development" / "code-review"
+        shutil.copytree(SKILLS_DIR / "development" / "code-review", skill_dir)
+
+        skill_md = skill_dir / "SKILL.md"
+        text = skill_md.read_text(encoding="utf-8")
+        text = text.split("activation:")[0] + "activation: null\nsecurity: null\n---\n" + text.split("\n---\n", 1)[1]
+        skill_md.write_text(text, encoding="utf-8")
+
+        errors, _ = find_duplicates([skill_dir])
+        self.assertEqual(errors, [])
+        payload = build_index(skills_dir=tmp_root, repo_root=tmp_root)
+        self.assertEqual(payload["skills"][0]["risk_level"], "low")
 
 
 if __name__ == "__main__":

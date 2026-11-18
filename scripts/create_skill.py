@@ -4,14 +4,27 @@
 from __future__ import annotations
 
 import argparse
+import json
 import sys
 from pathlib import Path
 
-from skill_utils import KEBAB_CASE_RE, REGISTRY_DIR, SKILLS_DIR, TEMPLATES_DIR, load_categories
+from skill_utils import FRONTMATTER_RE, KEBAB_CASE_RE, REGISTRY_DIR, SKILLS_DIR, TEMPLATES_DIR, load_categories
 
 
 def _title_from_slug(slug: str) -> str:
     return " ".join(part.capitalize() for part in slug.split("-"))
+
+
+def _escape_for_quoted_scalar(value: str) -> str:
+    """Escape a string so it is safe inside double-quoted YAML/JSON literals."""
+    single_line = " ".join(value.splitlines()).strip()
+    return json.dumps(single_line)[1:-1]
+
+
+def _apply_replacements(text: str, replacements: dict[str, str]) -> str:
+    for token, value in replacements.items():
+        text = text.replace(token, value)
+    return text
 
 
 def create_skill(
@@ -47,14 +60,18 @@ def create_skill(
     if not template_root.is_dir():
         raise FileNotFoundError(f"Skill template not found at {template_root}")
 
-    resolved_title = title.strip() if title else _title_from_slug(name)
-    replacements = {
+    resolved_title = " ".join((title.strip() if title else _title_from_slug(name)).splitlines())
+    clean_description = " ".join(description.strip().splitlines())
+    clean_author = " ".join(author.strip().splitlines())
+
+    raw_replacements = {
         "{{SKILL_NAME}}": name,
         "{{SKILL_TITLE}}": resolved_title,
-        "{{SKILL_DESCRIPTION}}": description.strip(),
+        "{{SKILL_DESCRIPTION}}": clean_description,
         "{{CATEGORY}}": category,
-        "{{AUTHOR}}": author.strip(),
+        "{{AUTHOR}}": clean_author,
     }
+    escaped_replacements = {k: _escape_for_quoted_scalar(v) for k, v in raw_replacements.items()}
 
     for src_file in template_root.rglob("*"):
         if not src_file.is_file():
@@ -63,8 +80,18 @@ def create_skill(
         dest_file = target_dir / rel
         dest_file.parent.mkdir(parents=True, exist_ok=True)
         content = src_file.read_text(encoding="utf-8")
-        for token, value in replacements.items():
-            content = content.replace(token, value)
+        if dest_file.suffix.lower() == ".json":
+            content = _apply_replacements(content, escaped_replacements)
+        elif dest_file.name == "SKILL.md":
+            fm_match = FRONTMATTER_RE.match(content)
+            if fm_match:
+                fm_rendered = _apply_replacements(fm_match.group(1), escaped_replacements)
+                body_rendered = _apply_replacements(fm_match.group(2), raw_replacements)
+                content = f"---\n{fm_rendered}\n---\n{body_rendered}"
+            else:
+                content = _apply_replacements(content, raw_replacements)
+        else:
+            content = _apply_replacements(content, raw_replacements)
         dest_file.write_text(content, encoding="utf-8")
 
     if with_references:
