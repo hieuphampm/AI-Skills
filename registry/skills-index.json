@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "skill_count": 3,
+  "skill_count": 4,
   "skills": [
     {
       "id": "ai-engineering/prompt-engineering",
@@ -142,6 +142,56 @@
         ],
         "examples": [
           "examples/python-api-review.md"
+        ],
+        "tests": [
+          "tests/eval-cases.json"
+        ]
+      }
+    },
+    {
+      "id": "productivity/research-paper-analyzer",
+      "name": "research-paper-analyzer",
+      "title": "Research Paper Analyzer",
+      "category": "productivity",
+      "version": "1.0.0",
+      "description": "Analyze academic research papers, extract quantitative and qualitative findings, verify numerical evidence, evaluate research methodology, and generate precise source-traceable citations. Use when reading scientific papers, reviewing literature, extracting statistics, comparing studies, or preparing evidence-based academic reports.",
+      "tags": [
+        "academic-analysis",
+        "citations",
+        "evidence-extraction",
+        "literature-review",
+        "research",
+        "statistics"
+      ],
+      "required_tools": [
+        "file_read",
+        "user_prompt"
+      ],
+      "compatibility": [
+        "openai",
+        "anthropic",
+        "google-gemini",
+        "cursor",
+        "claude-code",
+        "codex",
+        "antigravity",
+        "mcp",
+        "generic-llm"
+      ],
+      "risk_level": "low",
+      "path": "skills/productivity/research-paper-analyzer",
+      "entrypoint": "skills/productivity/research-paper-analyzer/SKILL.md",
+      "resources": {
+        "references": [
+          "references/citation-and-evidence-rules.md",
+          "references/methodology-and-numerical-protocol.md"
+        ],
+        "scripts": [],
+        "assets": [
+          "assets/analysis-report-template.md"
+        ],
+        "examples": [
+          "examples/rct-paper-analysis.md"
         ],
         "tests": [
           "tests/eval-cases.json"

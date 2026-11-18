@@ -12,8 +12,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Standardized skill and documentation templates (`templates/skill-template/`, `templates/documentation-template/`).
 - Automation CLI suite in `scripts/` (`create_skill.py`, `validate_skills.py`, `detect_duplicates.py`, `generate_index.py`, `skill_utils.py`).
 - Automated unit, quality, and integration test suite in `tests/` plus GitHub Actions CI workflow (`.github/workflows/validate-skills.yml`).
-- Three production-ready reference skills:
+- Four production-ready reference skills:
   - `development/code-review` (`1.0.0`)
   - `ai-engineering/prompt-engineering` (`1.0.0`)
   - `data/data-analysis` (`1.0.0`, including deterministic `scripts/profile_csv.py` and unit tests)
+  - `productivity/research-paper-analyzer` (`1.0.0`, academic evidence extraction, methodology appraisal, and source-traceable citations)
 - Full architectural, specification, security, integration, QA, tooling, and roadmap documentation in `docs/`.

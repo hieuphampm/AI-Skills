@@ -37,7 +37,8 @@ AI-Skills/
 ├── skills/
 │   ├── development/code-review/
 │   ├── ai-engineering/prompt-engineering/
-│   └── data/data-analysis/
+│   ├── data/data-analysis/
+│   └── productivity/research-paper-analyzer/
 ├── scripts/
 │   ├── skill_utils.py
 │   ├── create_skill.py
@@ -70,6 +71,7 @@ AI-Skills/
 | [code-review](skills/development/code-review/SKILL.md) | `development` | `1.0.0` | `low` | Structured, security-aware code reviews for diffs, PRs, and source files. |
 | [prompt-engineering](skills/ai-engineering/prompt-engineering/SKILL.md) | `ai-engineering` | `1.0.0` | `low` | Designs, refactors, and hardens LLM prompts with schemas and anti-injection guards. |
 | [data-analysis](skills/data/data-analysis/SKILL.md) | `data` | `1.0.0` | `medium` | Exploratory CSV data analysis backed by deterministic Python profiling (`profile_csv.py`). |
+| [research-paper-analyzer](skills/productivity/research-paper-analyzer/SKILL.md) | `productivity` | `1.0.0` | `low` | Source-traceable academic paper analysis, quantitative evidence extraction, methodology appraisal, and APA 7th citations. |
 
 Planned category taxonomy (`development`, `data`, `business`, `ai-engineering`, `productivity`) is defined in [registry/categories.json](registry/categories.json).
 
