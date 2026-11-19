@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "skill_count": 7,
+  "skill_count": 8,
   "skills": [
     {
       "id": "ai-engineering/prompt-engineering",
@@ -91,6 +91,56 @@
         ],
         "examples": [
           "examples/support-kb-rag-design.md"
+        ],
+        "tests": [
+          "tests/eval-cases.json"
+        ]
+      }
+    },
+    {
+      "id": "business/market-analysis",
+      "name": "market-analysis",
+      "title": "Market Analysis",
+      "category": "business",
+      "version": "1.0.0",
+      "description": "Analyzes a stock, sector, or overall market using fundamental, technical, and risk lenses \u2014 valuation, financial health, trend and support/resistance, and key risks \u2014 producing a structured, source-cited analysis with a clear disclaimer. Use when asked to analyze a ticker, compare stocks, or assess market/sector conditions.",
+      "tags": [
+        "finance",
+        "market",
+        "risk",
+        "stock-analysis",
+        "technical-analysis",
+        "valuation"
+      ],
+      "required_tools": [
+        "file_read",
+        "web_search",
+        "http_fetch"
+      ],
+      "compatibility": [
+        "openai",
+        "anthropic",
+        "google-gemini",
+        "cursor",
+        "claude-code",
+        "codex",
+        "antigravity",
+        "mcp",
+        "generic-llm"
+      ],
+      "risk_level": "medium",
+      "path": "skills/business/market-analysis",
+      "entrypoint": "skills/business/market-analysis/SKILL.md",
+      "resources": {
+        "references": [
+          "references/analysis-framework.md"
+        ],
+        "scripts": [],
+        "assets": [
+          "assets/analysis-report-template.md"
+        ],
+        "examples": [
+          "examples/nvda-analysis.md"
         ],
         "tests": [
           "tests/eval-cases.json"
